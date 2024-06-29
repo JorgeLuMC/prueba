@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <ul class="list-unstyled row">
+    <li *ngFor="let pokemon of paginatedPokemons" class="col-12 col-md-4 col-lg-3 mb-3">
+      <div class="card shadow">
+        <img [src]="pokemon.sprite || 'https://via.placeholder.com/150'" class="card-img-top" alt="{{ pokemon.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ pokemon.name }}</h5>
+          <pokemon-modal [apiUrl]="pokemon.url"></pokemon-modal>
+          <button
+            class="btn mx-2"
+            type="button"
+            [ngClass]="{'btn-primary': isFavorite(pokemon), 'btn-outline-primary': !isFavorite(pokemon)}"
+            (click)="toggleFavorite(pokemon)">
+            <i class="fas fa-star"></i>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="page-item" [class.active]="currentPage === i + 1">
+        <a class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
